@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import TaskList from "../components/TaskList.jsx";
 import ShoppingList from "../components/ShoppingList.jsx";
 import ChatBox from "../components/ChatBox.jsx";
+import ExampleOutcomes from "../components/ExampleOutcomes.jsx";
 import { askQuestion, deleteProject, getProject } from "../api.js";
 
 export default function ProjectDetail() {
@@ -96,6 +97,8 @@ export default function ProjectDetail() {
           <strong>Budget notes:</strong> {project.budget_notes}
         </div>
       )}
+
+      <ExampleOutcomes name={project.name} description={project.description} />
 
       <section>
         <h2>Task plan</h2>

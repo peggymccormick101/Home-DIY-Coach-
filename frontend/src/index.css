@@ -83,7 +83,13 @@ h1, h2 {
   border: 1px solid var(--border);
 }
 
-.example-gallery-section h2 {
+.example-outcomes h2 {
+  margin-bottom: 6px;
+}
+
+.example-outcomes-note {
+  font-size: 13px;
+  color: var(--text);
   margin-bottom: 12px;
 }
 
