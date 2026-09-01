@@ -8,11 +8,12 @@ export default function ProjectForm({ onSubmit, submitting }) {
 
   function handleSubmit(e) {
     e.preventDefault();
+    if (!name.trim() || !description.trim() || !targetDate) return;
     onSubmit({
-      name,
-      description,
+      name: name.trim(),
+      description: description.trim(),
       budget_usd: parseFloat(budgetUsd),
-      target_date: targetDate || null,
+      target_date: targetDate,
     });
   }
 
