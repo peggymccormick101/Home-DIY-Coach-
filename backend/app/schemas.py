@@ -8,7 +8,7 @@ class ProjectCreate(BaseModel):
     name: str
     description: str
     budget_usd: float = Field(gt=0)
-    target_date: Optional[date] = None
+    target_date: date
 
 
 class TaskOut(BaseModel):
@@ -19,6 +19,9 @@ class TaskOut(BaseModel):
     title: str
     description: str
     estimated_cost_usd: Optional[float] = None
+    duration_days: Optional[int] = None
+    start_date: Optional[date] = None
+    end_date: Optional[date] = None
 
 
 class MaterialOut(BaseModel):

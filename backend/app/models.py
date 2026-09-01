@@ -52,6 +52,9 @@ class Task(Base):
     title = Column(String, nullable=False)
     description = Column(Text, nullable=False)
     estimated_cost_usd = Column(Float, nullable=True)
+    duration_days = Column(Integer, nullable=True)
+    start_date = Column(Date, nullable=True)
+    end_date = Column(Date, nullable=True)
 
     project = relationship("Project", back_populates="tasks")
 

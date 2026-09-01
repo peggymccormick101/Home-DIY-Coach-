@@ -60,8 +60,12 @@ PLAN_TOOL = {
                             "type": "number",
                             "description": "Cost attributable to this step, if any (0 if none).",
                         },
+                        "duration_days": {
+                            "type": "integer",
+                            "description": "How many calendar days this step takes, assuming steps happen one after another. Minimum 1.",
+                        },
                     },
-                    "required": ["title", "description"],
+                    "required": ["title", "description", "duration_days"],
                 },
             },
             "shopping_list": {
@@ -92,21 +96,25 @@ PLAN_TOOL = {
 }
 
 
-def generate_plan(
-    name: str, description: str, budget_usd: float, target_date: Optional[date]
-) -> dict:
-    target_date_str = target_date.isoformat() if target_date else "not specified"
+def generate_plan(name: str, description: str, budget_usd: float, target_date: date) -> dict:
+    days_available = (target_date - date.today()).days
     user_prompt = (
         f"Project: {name}\n"
         f"Description / idea: {description}\n"
         f"Budget: ${budget_usd:,.2f} USD\n"
-        f"Target finish date: {target_date_str}\n"
-        f"Today's date: {date.today().isoformat()}\n\n"
+        f"Today's date: {date.today().isoformat()}\n"
+        f"Target finish date: {target_date.isoformat()} ({days_available} days from today)\n\n"
         "Create a realistic, beginner-friendly home DIY project plan: an ordered "
-        "task list, a shopping list with estimated costs, and an overall cost and "
-        "duration estimate. Keep the plan achievable within the stated budget where "
-        "possible, and call out clearly in budget_notes if it can't be done for that "
-        "budget and what the cheapest realistic alternative would cost."
+        "task list (each with a duration_days), a shopping list with estimated costs, "
+        "and an overall cost and duration estimate. Each task's duration_days should "
+        "assume tasks happen one after another (sequentially), and the tasks' "
+        "duration_days should sum to estimated_duration_days. Keep the plan achievable "
+        "within the stated budget and by the target finish date where possible. If the "
+        "plan can't realistically fit in the time available, still schedule it as "
+        "efficiently as possible and clearly say so in budget_notes, including what a "
+        "realistic finish date would be. If it can't be done for the stated budget, "
+        "call that out in budget_notes too along with the cheapest realistic "
+        "alternative."
     )
 
     client = get_client()

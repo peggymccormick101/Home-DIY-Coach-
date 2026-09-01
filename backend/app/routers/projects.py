@@ -1,3 +1,5 @@
+from datetime import date, timedelta
+
 import anthropic
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
@@ -64,7 +66,12 @@ def create_project(payload: schemas.ProjectCreate, db: Session = Depends(get_db)
     db.add(project)
     db.flush()
 
+    cursor = date.today()
     for idx, t in enumerate(plan.get("tasks", [])):
+        duration = max(1, int(t.get("duration_days") or 1))
+        task_start = cursor
+        task_end = cursor + timedelta(days=duration - 1)
+        cursor = task_end + timedelta(days=1)
         db.add(
             models.Task(
                 project_id=project.id,
@@ -72,6 +79,9 @@ def create_project(payload: schemas.ProjectCreate, db: Session = Depends(get_db)
                 title=t["title"],
                 description=t["description"],
                 estimated_cost_usd=t.get("estimated_cost_usd"),
+                duration_days=duration,
+                start_date=task_start,
+                end_date=task_end,
             )
         )
 

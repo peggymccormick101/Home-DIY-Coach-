@@ -235,6 +235,15 @@ section {
   font-size: 14px;
   margin: 4px 0 6px;
 }
+.task-meta {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.task-dates {
+  font-size: 12px;
+  color: var(--text);
+}
 .task-cost {
   font-size: 12px;
   color: var(--accent);
