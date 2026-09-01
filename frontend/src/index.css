@@ -59,7 +59,7 @@ h1, h2 {
 .hero-image {
   display: block;
   width: 100%;
-  max-width: 640px;
+  max-width: 360px;
   margin: 0 auto 24px;
   border-radius: 12px;
   border: 1px solid var(--border);
