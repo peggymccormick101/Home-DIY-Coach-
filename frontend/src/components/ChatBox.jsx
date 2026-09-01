@@ -1,4 +1,6 @@
 import { useState } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export default function ChatBox({ messages, onAsk, asking }) {
   const [question, setQuestion] = useState("");
@@ -19,7 +21,13 @@ export default function ChatBox({ messages, onAsk, asking }) {
         {messages.map((m) => (
           <div key={m.id} className={`chat-message chat-${m.role}`}>
             <span className="chat-role">{m.role === "user" ? "You" : "Coach"}</span>
-            <p>{m.content}</p>
+            {m.role === "assistant" ? (
+              <div className="chat-markdown">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>{m.content}</ReactMarkdown>
+              </div>
+            ) : (
+              <p>{m.content}</p>
+            )}
           </div>
         ))}
         {asking && (
