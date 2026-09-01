@@ -5,14 +5,23 @@ export default function ProjectForm({ onSubmit, submitting }) {
   const [description, setDescription] = useState("");
   const [budgetUsd, setBudgetUsd] = useState("");
   const [targetDate, setTargetDate] = useState("");
+  const [budgetError, setBudgetError] = useState(null);
 
   function handleSubmit(e) {
     e.preventDefault();
     if (!name.trim() || !description.trim() || !targetDate) return;
+
+    const parsedBudget = Number(budgetUsd);
+    if (budgetUsd.trim() === "" || !Number.isFinite(parsedBudget) || parsedBudget <= 0) {
+      setBudgetError("Enter a budget greater than $0.");
+      return;
+    }
+    setBudgetError(null);
+
     onSubmit({
       name: name.trim(),
       description: description.trim(),
-      budget_usd: parseFloat(budgetUsd),
+      budget_usd: parsedBudget,
       target_date: targetDate,
     });
   }
@@ -49,9 +58,13 @@ export default function ProjectForm({ onSubmit, submitting }) {
             step="1"
             placeholder="1500"
             value={budgetUsd}
-            onChange={(e) => setBudgetUsd(e.target.value)}
+            onChange={(e) => {
+              setBudgetUsd(e.target.value);
+              setBudgetError(null);
+            }}
             required
           />
+          {budgetError && <span className="field-error">{budgetError}</span>}
         </label>
         <label>
           Target finish date

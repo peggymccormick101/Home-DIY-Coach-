@@ -83,6 +83,12 @@ h1, h2 {
   flex: 1;
 }
 
+.field-error {
+  font-size: 12px;
+  font-weight: 500;
+  color: #e0455a;
+}
+
 input, textarea, button {
   font: inherit;
 }
