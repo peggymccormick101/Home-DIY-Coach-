@@ -17,7 +17,7 @@ def search_images(query: str, count: int = 3) -> list[dict]:
             params={
                 "q": query,
                 "page_size": count,
-                "license_type": "commercial,modification",
+                "mature": "false",
             },
             headers={"User-Agent": "HomeDIYCoach/1.0"},
             timeout=8,
