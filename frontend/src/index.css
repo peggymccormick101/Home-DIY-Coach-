@@ -1,11 +1,12 @@
 :root {
-  --text: #3f3a45;
-  --text-h: #16121b;
-  --bg: #faf9fb;
+  --text: #4a3f38;
+  --text-h: #241a12;
+  --bg: #fbf7f2;
   --card-bg: #fff;
-  --border: #e5e4e7;
-  --accent: #8a4fff;
-  --accent-bg: rgba(138, 79, 255, 0.08);
+  --border: #ecdfd2;
+  --accent: #d9662b;
+  --accent-bg: rgba(217, 102, 43, 0.08);
+  --accent-2: #5c7a4f;
 
   font: 16px/1.5 system-ui, "Segoe UI", Roboto, sans-serif;
   color-scheme: light dark;
@@ -15,13 +16,14 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --text: #cfcad6;
-    --text-h: #f3f1f7;
-    --bg: #17151b;
-    --card-bg: #201d26;
-    --border: #322e39;
-    --accent: #b088ff;
-    --accent-bg: rgba(176, 136, 255, 0.12);
+    --text: #d8cabe;
+    --text-h: #f5ece2;
+    --bg: #1c1712;
+    --card-bg: #2a2019;
+    --border: #3d3025;
+    --accent: #e8894f;
+    --accent-bg: rgba(232, 137, 79, 0.14);
+    --accent-2: #8fae7e;
   }
 }
 
@@ -51,18 +53,45 @@ h1, h2 {
 }
 
 .app-main {
-  max-width: 820px;
+  max-width: 980px;
   margin: 0 auto;
   padding: 24px;
 }
 
-.hero-image {
+.hero-section {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.hero-copy {
+  flex: 1 1 320px;
+  min-width: 280px;
+}
+
+.hero-illustration {
   display: block;
   width: 100%;
-  max-width: 360px;
-  margin: 0 auto 24px;
-  border-radius: 12px;
-  border: 1px solid var(--border);
+  max-width: 340px;
+  height: auto;
+}
+
+.hero-tagline {
+  margin: 16px 0 8px;
+  font-size: 28px;
+}
+
+.hero-subtext {
+  font-size: 15px;
+  color: var(--text);
+  max-width: 380px;
+}
+
+.hero-section .project-form {
+  flex: 1 1 360px;
+  min-width: 300px;
 }
 
 .project-form {
