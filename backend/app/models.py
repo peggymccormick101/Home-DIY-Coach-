@@ -41,6 +41,9 @@ class Project(Base):
         "Message", back_populates="project", cascade="all, delete-orphan",
         order_by="Message.created_at",
     )
+    example_images = relationship(
+        "ExampleImage", back_populates="project", cascade="all, delete-orphan"
+    )
 
 
 class Task(Base):
@@ -70,6 +73,20 @@ class MaterialItem(Base):
     category = Column(String, nullable=True)
 
     project = relationship("Project", back_populates="materials")
+
+
+class ExampleImage(Base):
+    __tablename__ = "example_images"
+
+    id = Column(Integer, primary_key=True, index=True)
+    project_id = Column(Integer, ForeignKey("projects.id"), nullable=False)
+    url = Column(String, nullable=False)
+    thumbnail_url = Column(String, nullable=True)
+    title = Column(String, nullable=True)
+    source_url = Column(String, nullable=True)
+    creator = Column(String, nullable=True)
+
+    project = relationship("Project", back_populates="example_images")
 
 
 class Message(Base):

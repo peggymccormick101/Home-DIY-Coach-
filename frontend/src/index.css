@@ -118,11 +118,29 @@ h1, h2 {
   border-radius: 8px;
 }
 
+.example-photo-card {
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s ease;
+}
+.example-photo-card:hover {
+  border-color: var(--accent);
+}
+.example-photo-card .example-illustration {
+  aspect-ratio: 5 / 4;
+  object-fit: cover;
+}
+
 .example-label {
   font-weight: 600;
   color: var(--text-h);
   font-size: 14px;
   text-align: center;
+}
+
+.example-credit {
+  font-weight: 400;
+  color: var(--text);
 }
 
 .hero-tagline {

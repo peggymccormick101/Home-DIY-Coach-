@@ -98,7 +98,11 @@ export default function ProjectDetail() {
         </div>
       )}
 
-      <ExampleOutcomes name={project.name} description={project.description} />
+      <ExampleOutcomes
+        name={project.name}
+        description={project.description}
+        images={project.example_images}
+      />
 
       <section>
         <h2>Task plan</h2>

@@ -106,22 +106,46 @@ function pickCategories(text) {
   return [CATEGORIES[0], CATEGORIES[1], CATEGORIES[2]];
 }
 
-export default function ExampleOutcomes({ name, description }) {
-  const categories = pickCategories(`${name || ""} ${description || ""}`);
+export default function ExampleOutcomes({ name, description, images = [] }) {
+  const hasRealPhotos = images.length > 0;
+  const categories = hasRealPhotos ? [] : pickCategories(`${name || ""} ${description || ""}`);
 
   return (
     <section className="example-outcomes">
       <h2>Example outcomes</h2>
       <p className="example-outcomes-note">
-        Illustrative examples of similar projects — not photos of your specific plan.
+        {hasRealPhotos
+          ? "Real photos of similar projects, found via Openverse — not photos of your specific plan."
+          : "Illustrative examples of similar projects — not photos of your specific plan."}
       </p>
       <div className="example-gallery">
-        {categories.map(({ key, label, Icon }) => (
-          <div className="example-card" key={key}>
-            <Icon />
-            <span className="example-label">{label}</span>
-          </div>
-        ))}
+        {hasRealPhotos
+          ? images.map((img) => (
+              <a
+                className="example-card example-photo-card"
+                key={img.id}
+                href={img.source_url || img.url}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img
+                  src={img.thumbnail_url || img.url}
+                  alt={img.title || "Example project photo"}
+                  className="example-illustration"
+                  loading="lazy"
+                />
+                <span className="example-label">
+                  {img.title || "Example"}
+                  {img.creator && <span className="example-credit"> — {img.creator}</span>}
+                </span>
+              </a>
+            ))
+          : categories.map(({ key, label, Icon }) => (
+              <div className="example-card" key={key}>
+                <Icon />
+                <span className="example-label">{label}</span>
+              </div>
+            ))}
       </div>
     </section>
   );
