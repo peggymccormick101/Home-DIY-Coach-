@@ -96,8 +96,12 @@ def create_project(payload: schemas.ProjectCreate, db: Session = Depends(get_db)
             )
         )
 
-    image_query = plan.get("image_search_query") or payload.name
-    for img in images.search_images(image_query, count=3):
+    image_queries = [
+        plan.get("image_search_query"),
+        payload.name,
+        images.broad_fallback_term(f"{payload.name} {payload.description}"),
+    ]
+    for img in images.search_images_with_fallback(image_queries, count=3):
         db.add(
             models.ExampleImage(
                 project_id=project.id,

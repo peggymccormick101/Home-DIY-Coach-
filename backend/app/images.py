@@ -43,3 +43,38 @@ def search_images(query: str, count: int = 3) -> list[dict]:
             }
         )
     return results
+
+
+_CATEGORY_KEYWORDS = [
+    ("deck", ["deck", "patio", "porch"]),
+    ("garden", ["garden", "yard", "landscap", "plant", "flower", "lawn", "mulch"]),
+    ("kitchen", ["kitchen", "cabinet", "countertop", "backsplash"]),
+    ("bathroom", ["bathroom", "bath", "shower", "tile", "vanity"]),
+    ("room interior", ["paint", "room", "wall", "interior", "bedroom", "living room"]),
+    ("shed storage", ["shed", "storage", "garage", "shelving", "closet"]),
+]
+
+
+def broad_fallback_term(text: str) -> str:
+    """Map free text to a short, well-supported search category as a last
+    resort when a more specific query returns no Openverse results."""
+    lower = text.lower()
+    for term, keywords in _CATEGORY_KEYWORDS:
+        if any(k in lower for k in keywords):
+            return term
+    return "home improvement"
+
+
+def search_images_with_fallback(queries: list[str], count: int = 3) -> list[dict]:
+    """Try each query in order, returning the first result set that isn't
+    empty. Skips blank/duplicate queries."""
+    seen = set()
+    for query in queries:
+        query = (query or "").strip()
+        if not query or query.lower() in seen:
+            continue
+        seen.add(query.lower())
+        results = search_images(query, count=count)
+        if results:
+            return results
+    return []
