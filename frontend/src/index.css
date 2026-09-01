@@ -56,6 +56,15 @@ h1, h2 {
   padding: 24px;
 }
 
+.hero-image {
+  display: block;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto 24px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
 .project-form {
   background: var(--card-bg);
   border: 1px solid var(--border);

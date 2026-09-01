@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProjectForm from "../components/ProjectForm.jsx";
 import { createProject, deleteProject, listProjects } from "../api.js";
+import heroImg from "../hero.png";
 
 export default function Home() {
   const [projects, setProjects] = useState([]);
@@ -49,6 +50,7 @@ export default function Home() {
 
   return (
     <div className="home-page">
+      <img src={heroImg} alt="Home DIY Coach — plan it, do it, love it" className="hero-image" />
       <ProjectForm onSubmit={handleCreate} submitting={submitting} />
       {error && <p className="error">{error}</p>}
 
