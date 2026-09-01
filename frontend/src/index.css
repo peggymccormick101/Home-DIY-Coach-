@@ -122,16 +122,43 @@ button:disabled {
   gap: 8px;
 }
 
-.project-list a {
+.project-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card-bg);
+}
+
+.project-list .project-link {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 4px;
   padding: 14px 16px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
   text-decoration: none;
   color: var(--text-h);
-  background: var(--card-bg);
+}
+
+.delete-button {
+  background: transparent;
+  color: #e0455a;
+  border: 1px solid #e0455a55;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-right: 14px;
+  flex-shrink: 0;
+}
+.delete-button:hover:not(:disabled) {
+  background: #e0455a15;
+}
+
+.project-detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .project-name {

@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProjectForm from "../components/ProjectForm.jsx";
-import { createProject, listProjects } from "../api.js";
+import { createProject, deleteProject, listProjects } from "../api.js";
 
 export default function Home() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
+  const [deletingId, setDeletingId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,6 +31,22 @@ export default function Home() {
     }
   }
 
+  async function handleDelete(e, project) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!window.confirm(`Delete "${project.name}"? This can't be undone.`)) return;
+    setDeletingId(project.id);
+    setError(null);
+    try {
+      await deleteProject(project.id);
+      setProjects((prev) => prev.filter((p) => p.id !== project.id));
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setDeletingId(null);
+    }
+  }
+
   return (
     <div className="home-page">
       <ProjectForm onSubmit={handleCreate} submitting={submitting} />
@@ -42,7 +59,11 @@ export default function Home() {
         <ul className="project-list">
           {projects.map((p) => (
             <li key={p.id}>
-              <a href={`/projects/${p.id}`} onClick={(e) => { e.preventDefault(); navigate(`/projects/${p.id}`); }}>
+              <a
+                className="project-link"
+                href={`/projects/${p.id}`}
+                onClick={(e) => { e.preventDefault(); navigate(`/projects/${p.id}`); }}
+              >
                 <span className="project-name">{p.name}</span>
                 <span className="project-meta">
                   Budget ${p.budget_usd.toLocaleString()}
@@ -50,6 +71,15 @@ export default function Home() {
                   {p.target_date && ` · Due ${p.target_date}`}
                 </span>
               </a>
+              <button
+                type="button"
+                className="delete-button"
+                onClick={(e) => handleDelete(e, p)}
+                disabled={deletingId === p.id}
+                aria-label={`Delete ${p.name}`}
+              >
+                {deletingId === p.id ? "Deleting…" : "Delete"}
+              </button>
             </li>
           ))}
         </ul>

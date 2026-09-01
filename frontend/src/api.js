@@ -15,6 +15,7 @@ async function request(path, options = {}) {
     }
     throw new Error(detail);
   }
+  if (res.status === 204) return null;
   return res.json();
 }
 
@@ -38,4 +39,8 @@ export function askQuestion(id, question) {
     method: "POST",
     body: JSON.stringify({ question }),
   });
+}
+
+export function deleteProject(id) {
+  return request(`/projects/${id}`, { method: "DELETE" });
 }

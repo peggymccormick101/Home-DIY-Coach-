@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import TaskList from "../components/TaskList.jsx";
 import ShoppingList from "../components/ShoppingList.jsx";
 import ChatBox from "../components/ChatBox.jsx";
-import { askQuestion, getProject } from "../api.js";
+import { askQuestion, deleteProject, getProject } from "../api.js";
 
 export default function ProjectDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [asking, setAsking] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     getProject(id)
@@ -36,15 +38,33 @@ export default function ProjectDetail() {
     }
   }
 
+  async function handleDelete() {
+    if (!window.confirm(`Delete "${project.name}"? This can't be undone.`)) return;
+    setDeleting(true);
+    setError(null);
+    try {
+      await deleteProject(id);
+      navigate("/");
+    } catch (e) {
+      setError(e.message);
+      setDeleting(false);
+    }
+  }
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="error">{error}</p>;
   if (!project) return null;
 
   return (
     <div className="project-detail">
-      <Link to="/" className="back-link">
-        ← All projects
-      </Link>
+      <div className="project-detail-header">
+        <Link to="/" className="back-link">
+          ← All projects
+        </Link>
+        <button type="button" className="delete-button" onClick={handleDelete} disabled={deleting}>
+          {deleting ? "Deleting…" : "Delete project"}
+        </button>
+      </div>
       <h1>{project.name}</h1>
       <p className="project-summary">{project.summary}</p>
 

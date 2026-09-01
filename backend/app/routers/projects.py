@@ -114,6 +114,15 @@ def get_project(project_id: int, db: Session = Depends(get_db)):
     return project
 
 
+@router.delete("/{project_id}", status_code=204)
+def delete_project(project_id: int, db: Session = Depends(get_db)):
+    project = db.get(models.Project, project_id)
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found")
+    db.delete(project)
+    db.commit()
+
+
 @router.post("/{project_id}/ask", response_model=schemas.AskResponse)
 def ask_question(
     project_id: int, payload: schemas.AskRequest, db: Session = Depends(get_db)
