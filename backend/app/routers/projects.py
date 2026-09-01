@@ -1,3 +1,4 @@
+import anthropic
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
@@ -40,6 +41,15 @@ def create_project(payload: schemas.ProjectCreate, db: Session = Depends(get_db)
         )
     except RuntimeError as e:
         raise HTTPException(status_code=503, detail=str(e))
+    except anthropic.APIStatusError as e:
+        raise HTTPException(
+            status_code=502,
+            detail=f"Claude API error ({e.status_code}): {e.message}",
+        )
+    except anthropic.APIConnectionError as e:
+        raise HTTPException(
+            status_code=502, detail=f"Could not reach the Claude API: {e}"
+        )
 
     project = models.Project(
         name=payload.name,
@@ -109,6 +119,15 @@ def ask_question(
         answer = ai.answer_question(context, history, payload.question)
     except RuntimeError as e:
         raise HTTPException(status_code=503, detail=str(e))
+    except anthropic.APIStatusError as e:
+        raise HTTPException(
+            status_code=502,
+            detail=f"Claude API error ({e.status_code}): {e.message}",
+        )
+    except anthropic.APIConnectionError as e:
+        raise HTTPException(
+            status_code=502, detail=f"Could not reach the Claude API: {e}"
+        )
 
     db.add(models.Message(project_id=project.id, role="user", content=payload.question))
     db.add(models.Message(project_id=project.id, role="assistant", content=answer))
