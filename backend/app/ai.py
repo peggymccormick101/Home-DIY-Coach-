@@ -49,6 +49,10 @@ PLAN_TOOL = {
                 "type": "string",
                 "description": "Notes on how the plan fits the stated budget, and any trade-offs or cheaper alternatives if it doesn't.",
             },
+            "image_search_query": {
+                "type": "string",
+                "description": "A short, specific, visually descriptive 3-6 word phrase for finding real photo examples of the FINISHED project on a stock photo site (e.g. 'small backyard perennial flower garden' or 'cedar deck with railing'). Avoid generic single words and avoid place names unless the location itself is the visual subject.",
+            },
             "tasks": {
                 "type": "array",
                 "description": "Ordered, step-by-step tasks to complete the project.",
@@ -95,6 +99,7 @@ PLAN_TOOL = {
             "estimated_total_cost_usd",
             "tasks",
             "shopping_list",
+            "image_search_query",
         ],
     },
 }

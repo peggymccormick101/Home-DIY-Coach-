@@ -96,7 +96,8 @@ def create_project(payload: schemas.ProjectCreate, db: Session = Depends(get_db)
             )
         )
 
-    for img in images.search_images(payload.name, count=3):
+    image_query = plan.get("image_search_query") or payload.name
+    for img in images.search_images(image_query, count=3):
         db.add(
             models.ExampleImage(
                 project_id=project.id,
