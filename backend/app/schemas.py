@@ -34,17 +34,6 @@ class MaterialOut(BaseModel):
     category: Optional[str] = None
 
 
-class ExampleImageOut(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
-    id: int
-    url: str
-    thumbnail_url: Optional[str] = None
-    title: Optional[str] = None
-    source_url: Optional[str] = None
-    creator: Optional[str] = None
-
-
 class MessageOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
@@ -81,7 +70,6 @@ class ProjectDetail(BaseModel):
     tasks: list[TaskOut] = []
     materials: list[MaterialOut] = []
     messages: list[MessageOut] = []
-    example_images: list[ExampleImageOut] = []
 
 
 class AskRequest(BaseModel):

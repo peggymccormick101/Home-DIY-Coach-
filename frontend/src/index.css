@@ -83,66 +83,6 @@ h1, h2 {
   border: 1px solid var(--border);
 }
 
-.example-outcomes h2 {
-  margin-bottom: 6px;
-}
-
-.example-outcomes-note {
-  font-size: 13px;
-  color: var(--text);
-  margin-bottom: 12px;
-}
-
-.example-gallery {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.example-card {
-  flex: 1 1 200px;
-  max-width: 340px;
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.example-illustration {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-}
-
-.example-photo-card {
-  text-decoration: none;
-  color: inherit;
-  transition: border-color 0.15s ease;
-}
-.example-photo-card:hover {
-  border-color: var(--accent);
-}
-.example-photo-card .example-illustration {
-  aspect-ratio: 5 / 4;
-  object-fit: cover;
-}
-
-.example-label {
-  font-weight: 600;
-  color: var(--text-h);
-  font-size: 14px;
-  text-align: center;
-}
-
-.example-credit {
-  font-weight: 400;
-  color: var(--text);
-}
-
 .hero-tagline {
   margin: 16px 0 8px;
   font-size: 28px;

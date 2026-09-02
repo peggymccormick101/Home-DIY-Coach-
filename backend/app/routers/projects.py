@@ -4,7 +4,7 @@ import anthropic
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app import ai, images, models, schemas
+from app import ai, models, schemas
 from app.database import get_db
 
 router = APIRouter(prefix="/api/projects", tags=["projects"])
@@ -93,23 +93,6 @@ def create_project(payload: schemas.ProjectCreate, db: Session = Depends(get_db)
                 quantity=m["quantity"],
                 estimated_cost_usd=m.get("estimated_cost_usd"),
                 category=m.get("category"),
-            )
-        )
-
-    image_queries = [
-        plan.get("image_search_query"),
-        payload.name,
-        images.broad_fallback_term(f"{payload.name} {payload.description}"),
-    ]
-    for img in images.search_images_with_fallback(image_queries, count=3):
-        db.add(
-            models.ExampleImage(
-                project_id=project.id,
-                url=img["url"],
-                thumbnail_url=img.get("thumbnail_url"),
-                title=img.get("title"),
-                source_url=img.get("source_url"),
-                creator=img.get("creator"),
             )
         )
 
