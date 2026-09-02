@@ -58,3 +58,30 @@ backend on port 8000 (see `vite.config.js`).
 - `GET /api/projects/{id}` — get a project's full plan, shopping list, and
   chat history
 - `POST /api/projects/{id}/ask` — ask a question about a project
+
+## Deployment (Render)
+
+The app deploys as a single service: a Docker image builds the React
+frontend, then FastAPI serves both the API (`/api/*`) and the built
+frontend (everything else) from one process.
+
+1. Push this repo to GitHub (already done if you're reading this from there).
+2. On [render.com](https://render.com), sign up / log in, then **New >
+   Blueprint**, and point it at this repo. Render reads `render.yaml`
+   automatically and creates the service.
+3. When prompted, enter your `ANTHROPIC_API_KEY` (and `ANTHROPIC_WORKSPACE_ID`
+   if your account requires one — see `backend/.env.example`) as the
+   service's environment variables. These are entered directly in Render's
+   dashboard, never committed to the repo.
+4. Deploy. Render builds the Docker image (`Dockerfile` at the repo root)
+   and gives you a public `https://home-diy-coach-xxxx.onrender.com` URL.
+5. To install it on your phone's home screen: open the URL in your mobile
+   browser, then use "Add to Home Screen" (Safari) or "Install app" (Chrome).
+6. On the service's **Settings** page, confirm **Auto-Deploy** is set to
+   "On Commit" so future pushes to the branch Render is watching deploy
+   automatically.
+
+**Note on data:** the free tier's disk is ephemeral — the SQLite database
+(saved projects) resets on every redeploy. That's fine for personal/testing
+use; if persistence across deploys matters later, that would mean adding a
+Render persistent disk or switching to a hosted database.
